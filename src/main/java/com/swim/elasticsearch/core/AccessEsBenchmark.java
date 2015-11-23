@@ -1,0 +1,36 @@
+package com.swim.elasticsearch.core;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+public class AccessEsBenchmark extends AbstractEsBenchmark {
+
+	@Override
+	public String benchmark() {
+		if(!settings()) {
+			return "";
+		}
+
+		List<DSLStats> listDSL = new ArrayList<DSLStats>();
+		
+		listDSL.add(CommonUtils.exceuteSearch(QUERY_COUNT, name(), CommonUtils.getClient(), indexs, types, source));
+		
+		listDSL.add(CommonUtils.exceuteAfterSettingSearch(QUERY_COUNT, name(), CommonUtils.getAfterSettingClient(), indexs, types, source));
+
+		return praseHtml(listDSL);
+	}
+
+	@Override
+	public String name() {
+		return "AccessRequest";
+	}
+	
+	public static void main(String[] args) {
+		AccessEsBenchmark a = new AccessEsBenchmark();
+		a.benchmark();
+	}
+
+}
